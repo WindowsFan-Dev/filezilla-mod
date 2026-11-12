@@ -1,444 +1,431 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>WindowsFan Suite — FileZilla Mod & UnPanel | KojiroXD</title>
-    <style>
-        :root {
-            --bg-main: #06090e;
-            --bg-card: #0d121a;
-            --accent: #0078D4;
-            --accent-glow: rgba(0, 120, 212, 0.45);
-            --text-main: #f0f6fc;
-            --text-muted: #8b949e;
-            --border-color: #212832;
-        }
-        body.tema-xp {
-            --bg-main: #245edb;
-            --bg-card: #ece9d8;
-            --accent: #388e3c;
-            --text-main: #000000;
-            --text-muted: #333333;
-            --border-color: #0054e3;
-        }
-        body.tema-98 {
-            --bg-main: #008080;
-            --bg-card: #c0c0c0;
-            --accent: #000080;
-            --text-main: #000000;
-            --text-muted: #222222;
-            --border-color: #ffffff;
-            font-family: 'Courier New', monospace;
-        }
-        body.tema-paranormal {
-            --bg-main: #07020d;
-            --bg-card: #120624;
-            --accent: #b829ff;
-            --accent-glow: rgba(184, 41, 255, 0.6);
-            --text-main: #f3e5ff;
-            --text-muted: #b388ff;
-            --border-color: #6a00f4;
-        }
-        * { box-sizing: border-box; }
-        body {
-            background-color: var(--bg-main);
-            color: var(--text-main);
-            font-family: 'Segoe UI', system-ui, sans-serif;
-            margin: 0;
-            padding: 0;
-            line-height: 1.6;
-            overflow-x: hidden;
-            transition: background-color 0.3s, color 0.3s;
-        }
-        nav {
-            background: rgba(13, 18, 26, 0.92);
-            border-bottom: 1px solid var(--border-color);
-            padding: 15px 30px;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            position: sticky;
-            top: 0;
-            backdrop-filter: blur(12px);
-            z-index: 100;
-        }
-        .logo { font-weight: 900; font-size: 1.3rem; color: var(--accent); letter-spacing: 1px; }
-        .medalla {
-            display: none;
-            background: linear-gradient(45deg, #ffd700, #ffae00);
-            color: #000;
-            font-weight: 900;
-            font-size: 0.75rem;
-            padding: 4px 12px;
-            border-radius: 12px;
-            margin-left: 10px;
-            border: 1px solid #fff;
-            box-shadow: 0 0 15px #ffd700;
-        }
-        .nav-links a { color: var(--text-muted); text-decoration: none; margin-left: 20px; font-weight: 600; font-size: 0.9rem; }
-        .nav-links a:hover { color: var(--accent); }
-        header { text-align: center; padding: 55px 20px 40px; max-width: 900px; margin: auto; }
-        .badge {
-            display: inline-block;
-            background: rgba(0, 120, 212, 0.15);
-            color: var(--accent);
-            border: 1px solid var(--accent);
-            padding: 6px 16px;
-            border-radius: 20px;
-            font-size: 0.85rem;
-            font-weight: bold;
-            margin-bottom: 15px;
-        }
-        h1 { font-size: 3.3rem; margin: 0 0 15px; font-weight: 900; letter-spacing: -1px; }
-        .hero-desc { color: var(--text-muted); font-size: 1.15rem; margin-bottom: 30px; }
-        .btn-group { display: flex; justify-content: center; gap: 15px; flex-wrap: wrap; }
-        .btn { padding: 14px 26px; border-radius: 8px; font-weight: bold; text-decoration: none; cursor: pointer; border: none; font-size: 0.95rem; transition: 0.2s; }
-        .btn:hover { transform: translateY(-2px); }
-        .btn-primary { background: var(--accent); color: #fff; box-shadow: 0 4px 20px var(--accent-glow); }
-        .btn-paranormal { background: #6a00f4; color: #fff; border: 1px solid #e0aaff; box-shadow: 0 0 15px rgba(184, 41, 255, 0.5); }
-        .btn-glitch { background: #da3633; color: #fff; border: 1px solid #00ffff; box-shadow: 0 0 15px rgba(218, 54, 51, 0.5); }
-        section { max-width: 980px; margin: 45px auto; padding: 0 20px; }
-        h2 { border-bottom: 2px solid var(--border-color); padding-bottom: 10px; color: var(--accent); font-size: 1.7rem; }
-        .grid-cards { display: grid; grid-template-columns: repeat(auto-fit, minmax(270px, 1fr)); gap: 20px; margin-top: 20px; }
-        .card { background: var(--bg-card); border: 1px solid var(--border-color); border-radius: 10px; padding: 22px; transition: 0.3s; }
-        .card:hover { border-color: var(--accent); transform: translateY(-3px); }
-        .card h3 { margin-top: 0; color: var(--accent); }
-        .sim-box { background: var(--bg-card); border: 1px solid var(--accent); border-radius: 10px; padding: 20px; margin-top: 20px; }
-        .progress-bg { background: #1c222b; height: 22px; border-radius: 6px; overflow: hidden; margin: 15px 0; border: 1px solid #30363d; }
-        .progress-fill { background: linear-gradient(90deg, var(--accent), #00ffff); height: 100%; width: 0%; transition: width 0.1s; }
-        .terminal { background: #010409; border: 1px solid var(--border-color); border-radius: 8px; padding: 20px; font-family: Consolas, monospace; color: #3fb950; margin-top: 15px; }
-        code { background: #161b22; padding: 3px 7px; border-radius: 4px; font-family: Consolas, monospace; color: #79c0ff; }
-        footer { text-align: center; padding: 40px 20px; border-top: 1px solid var(--border-color); color: var(--text-muted); margin-top: 60px; font-size: 0.9rem; }
-        .hud-fps {
-            position: fixed; bottom: 15px; right: 15px;
-            background: rgba(13, 18, 26, 0.9); border: 1px solid var(--accent);
-            padding: 6px 12px; border-radius: 6px; font-family: Consolas, monospace;
-            font-size: 0.8rem; color: #00ff00; z-index: 200;
-        }
-        #modalBios {
-            display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-            background: #0000AA; color: #FFFFFF; font-family: Consolas, monospace;
-            z-index: 9999; padding: 40px; border: 8px double #FFFFFF;
-        }
-        .bios-header { background: #AAAAAA; color: #0000AA; padding: 5px 15px; font-weight: bold; margin-bottom: 20px; }
-        @keyframes shake {
-            0% { transform: translate(2px, 1px); }
-            50% { transform: translate(-3px, 1px); }
-            100% { transform: translate(1px, -1px); }
-        }
-        .glitching { animation: shake 0.1s infinite; }
-    </style>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>WindowsFan Suite — FileZilla Mod & UnPanel SysAdmin</title>
+  <style>
+    :root {
+      --bg-color: #06090e;
+      --card-bg: rgba(13, 18, 26, 0.90);
+      --border-color: #0078D4;
+      --text-main: #E6EDF3;
+      --text-dim: #8B949E;
+      --accent: #0078D4;
+      --accent-glow: #00FF00;
+      --font-ui: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      --font-mono: 'Consolas', 'Courier New', monospace;
+    }
+
+    body.theme-xp {
+      --bg-color: #003399;
+      --card-bg: rgba(236, 233, 216, 0.96);
+      --border-color: #0054E3;
+      --text-main: #000000;
+      --text-dim: #333333;
+      --accent: #3A9E38;
+      --accent-glow: #FF6600;
+    }
+
+    body.theme-98 {
+      --bg-color: #008080;
+      --card-bg: rgba(192, 192, 192, 0.95);
+      --border-color: #FFFFFF;
+      --text-main: #000000;
+      --text-dim: #222222;
+      --accent: #000080;
+      --accent-glow: #00FF00;
+      --font-ui: 'Courier New', monospace;
+    }
+
+    body.theme-paranormal {
+      --bg-color: #04000A;
+      --card-bg: rgba(18, 4, 32, 0.92);
+      --border-color: #B829EA;
+      --text-main: #F3E5F5;
+      --text-dim: #CE93D8;
+      --accent: #8E24AA;
+      --accent-glow: #00E5FF;
+    }
+
+    * { box-sizing: border-box; }
+
+    body {
+      margin: 0;
+      padding: 0;
+      background-color: var(--bg-color);
+      color: var(--text-main);
+      font-family: var(--font-ui);
+      overflow-x: hidden;
+      transition: background-color 0.3s ease;
+    }
+
+    #matrix-canvas {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100vw;
+      height: 100vh;
+      z-index: 0;
+      pointer-events: none;
+      opacity: 0.42;
+    }
+
+    .topbar {
+      position: relative;
+      z-index: 2;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 10px;
+      padding: 12px 24px;
+      background: rgba(0, 0, 0, 0.78);
+      border-bottom: 2px solid var(--border-color);
+    }
+
+    .brand {
+      font-family: var(--font-mono);
+      font-weight: bold;
+      font-size: 16px;
+      color: #4CC2FF;
+      letter-spacing: 1px;
+    }
+
+    .badge-vault {
+      background: #D4A017;
+      color: #000;
+      padding: 2px 8px;
+      border-radius: 3px;
+      font-size: 11px;
+      font-weight: bold;
+      margin-left: 8px;
+    }
+
+    .theme-switcher button {
+      background: #1C222B;
+      color: #FFF;
+      border: 1px solid #555;
+      padding: 5px 10px;
+      font-family: var(--font-mono);
+      font-size: 12px;
+      cursor: pointer;
+      margin-left: 4px;
+    }
+
+    .theme-switcher button:hover, .theme-switcher button.active {
+      background: var(--accent);
+      color: #FFF;
+      border-color: #FFF;
+    }
+
+    .container {
+      position: relative;
+      z-index: 2;
+      max-width: 1040px;
+      margin: 30px auto;
+      padding: 0 20px 60px;
+    }
+
+    .hero-box {
+      background: var(--card-bg);
+      border: 2px solid var(--border-color);
+      padding: 32px 24px;
+      text-align: center;
+      box-shadow: 0 0 25px rgba(0, 0, 0, 0.65);
+    }
+
+    .hero-tag {
+      display: inline-block;
+      font-family: var(--font-mono);
+      font-size: 12px;
+      padding: 4px 12px;
+      border: 1px solid var(--accent-glow);
+      color: var(--accent-glow);
+      background: rgba(0, 0, 0, 0.5);
+      margin-bottom: 14px;
+    }
+
+    h1 {
+      font-family: var(--font-mono);
+      font-size: 36px;
+      margin: 8px 0;
+      color: var(--accent-glow);
+      text-shadow: 0 0 10px rgba(0, 255, 0, 0.4);
+      letter-spacing: 2px;
+    }
+
+    .subtitle {
+      font-family: var(--font-mono);
+      font-size: 14px;
+      color: var(--text-dim);
+      margin-bottom: 24px;
+    }
+
+    .action-row {
+      display: flex;
+      justify-content: center;
+      flex-wrap: wrap;
+      gap: 12px;
+      margin-bottom: 18px;
+    }
+
+    .btn {
+      display: inline-block;
+      padding: 12px 20px;
+      font-family: var(--font-mono);
+      font-size: 13px;
+      font-weight: bold;
+      text-decoration: none;
+      border: 2px solid #FFF;
+      cursor: pointer;
+      transition: transform 0.15s ease;
+    }
+
+    .btn:hover { transform: translateY(-2px); }
+    .btn-blue { background: #0078D4; color: #FFF; }
+    .btn-purple { background: #7B1FA2; color: #FFF; }
+    .btn-green { background: #00C853; color: #000; border-color: #00FF00; }
+    .btn-dark { background: #161B22; color: #4CC2FF; border-color: #4CC2FF; }
+
+    .status-pill {
+      display: inline-block;
+      background: #00E676;
+      color: #000;
+      font-family: var(--font-mono);
+      font-weight: bold;
+      font-size: 12px;
+      padding: 6px 16px;
+      border-radius: 3px;
+    }
+
+    .section-title {
+      font-family: var(--font-mono);
+      font-size: 20px;
+      color: #4CC2FF;
+      margin: 36px 0 16px;
+      border-bottom: 1px solid var(--border-color);
+      padding-bottom: 6px;
+    }
+
+    .grid-3 {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 18px;
+    }
+
+    .card {
+      background: var(--card-bg);
+      border: 2px solid var(--border-color);
+      padding: 20px;
+    }
+
+    .card h3 {
+      margin-top: 0;
+      font-family: var(--font-mono);
+      font-size: 16px;
+      color: var(--accent-glow);
+    }
+
+    .card p {
+      font-size: 14px;
+      line-height: 1.5;
+      color: var(--text-main);
+    }
+
+    .download-card {
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+    }
+
+    .download-card .btn {
+      width: 100%;
+      text-align: center;
+      margin-top: 14px;
+    }
+
+    .fps-counter {
+      position: fixed;
+      bottom: 10px;
+      right: 12px;
+      z-index: 5;
+      background: rgba(0, 0, 0, 0.85);
+      color: #00FF00;
+      border: 1px solid #00FF00;
+      font-family: var(--font-mono);
+      font-size: 11px;
+      padding: 4px 10px;
+    }
+  </style>
 </head>
-<body>
-    <canvas id="matrixCanvas" style="position:fixed; top:0; left:0; width:100%; height:100%; z-index:-1; opacity:0; transition:opacity 1s;"></canvas>
-    <audio id="audioParanormal" loop src="theme-app.wav"></audio>
+<body class="theme-98">
+  <canvas id="matrix-canvas"></canvas>
 
-    <div id="modalBios">
-        <div class="bios-header">CMOS Setup Utility - WindowsFan BIOS v4.93 (Arctic Vault Edition)</div>
-        <p>Detectando Hardware del Visitante en Tiempo Real...</p>
-        <div id="datosHardwareBios" style="border: 1px solid #fff; padding: 20px; margin: 20px 0; line-height: 2;"></div>
-        <p style="color: #FFFF55;">[ESC] Presiona la tecla ESC o haz clic abajo para salir y volver a Windows.</p>
-        <button onclick="cerrarBios()" style="background:#AAAAAA; color:#0000AA; font-family:Consolas; font-weight:bold; padding:10px 20px; border:none; cursor:pointer;">SALIR DE LA BIOS (F10)</button>
+  <header class="topbar">
+    <div>
+      <span class="brand">WINDOWSFAN.DEV</span>
+      <span class="badge-vault">.NET EXP • ARCTIC VAULT</span>
     </div>
+    <div class="theme-switcher">
+      <button onclick="setTheme('theme-dark', this)">W11 Dark</button>
+      <button onclick="setTheme('theme-xp', this)">Win XP</button>
+      <button class="active" onclick="setTheme('theme-98', this)">Win 98 (95%)</button>
+      <button onclick="setTheme('theme-paranormal', this)">⚡ Paranormal</button>
+    </div>
+  </header>
+    <main class="container">
+    <section class="hero-box">
+      <div class="hero-tag">OPEN-SOURCE • .NET FRAMEWORK 4.7.2 + PS3 PSL1GHT SDK</div>
+      <h1>SYSTEM ARCHITECT MODE</h1>
+      <div class="subtitle">KERNEL ESTABILIZADO POR KOJIROXD — ARQUITECTURA WINDOWS + PLAYSTATION 3</div>
 
-    <nav>
+      <div class="action-row">
+        <a id="hero-repo-fz" href="#" target="_blank" class="btn btn-blue">📁 REPO FILEZILLA MOD</a>
+        <a id="hero-repo-up" href="#" target="_blank" class="btn btn-dark">🛸 REPO UNPANEL TOOL</a>
+        <button id="audio-toggle" onclick="toggleSynthAudio()" class="btn btn-purple">🎵 MODO PARANORMAL (AUDIO)</button>
+      </div>
+
+      <div class="status-pill">⚡ KERNEL OPERANDO AL 100% — SUITE LISTO PARA DESCARGA</div>
+    </section>
+
+    <h2 class="section-title">📥 Centro de Descargas Oficial (WindowsFan Suite)</h2>
+    <div class="grid-3">
+      <div class="card download-card">
         <div>
-            <span class="logo">🦖 WINDOWSFAN.DEV</span>
-            <span id="medallaDotNet" class="medalla">🏅 .NET EXP • ARCTIC VAULT</span>
+          <h3>💻 FileZilla Mod (Windows)</h3>
+          <p>Cliente FTP nativo en C# / WPF optimizado a <strong>1 hilo estricto</strong> con detección automática de rutas de PS3 al arrastrar archivos.</p>
         </div>
-        <div class="nav-links">
-            <a href="#arquitectura">Arquitectura</a>
-            <a href="#simulador">Simulador FTP</a>
-            <a href="#consola">Consola UnPanel</a>
-        </div>
-    </nav>
+        <a id="dl-fz-win" href="#" target="_blank" class="btn btn-blue">DESCARGAR .EXE (RELEASE)</a>
+      </div>
 
-    <div style="text-align:center; padding:10px; background:rgba(0,0,0,0.4); border-bottom:1px solid var(--border-color);">
-        <span style="font-size:0.85rem; color:var(--text-muted); margin-right:10px;">🎨 <strong>Viaje en el Tiempo OS:</strong></span>
-        <button onclick="cambiarTema('')" style="cursor:pointer; padding:4px 10px;">W11 Dark</button>
-        <button onclick="cambiarTema('tema-xp')" style="cursor:pointer; padding:4px 10px;">Win XP</button>
-        <button onclick="cambiarTema('tema-98')" style="cursor:pointer; padding:4px 10px;">Win 98 (95%)</button>
-        <button onclick="cambiarTema('tema-paranormal')" style="cursor:pointer; padding:4px 10px; background:#6a00f4; color:#fff; border:none; border-radius:4px;">👻 Paranormal</button>
+      <div class="card download-card">
+        <div>
+          <h3>🎮 FileZilla Companion (PS3)</h3>
+          <p>Aplicación homebrew <strong>.PKG</strong> firmada para <strong>HFW 4.93 (HEN)</strong>, compilada desde cero con el SDK PSL1GHT para sincronización con PC.</p>
+        </div>
+        <a id="dl-fz-ps3" href="#" download class="btn btn-green">DESCARGAR .PKG (137 KB)</a>
+      </div>
+
+      <div class="card download-card">
+        <div>
+          <h3>🛸 UnPanel-SysAdmin-Tool v1.0</h3>
+          <p>Centro de mandos forense de <strong>20 botones</strong> en C# nativo para purgar archivos temporales, estabilizar el ping, reparar el sistema y eliminar bloatware.</p>
+        </div>
+        <a id="dl-unpanel" href="#" download class="btn btn-purple">DESCARGAR UNPANEL .EXE</a>
+      </div>
     </div>
-    <div id="hudFps" class="hud-fps">GPU Render: 60 FPS</div>
 
-    <header>
-        <div class="badge">OPEN-SOURCE • .NET FRAMEWORK 4.7.2 • ARCTIC CODE VAULT READY</div>
-        <h1 id="tituloPrincipal">FILEZILLA MOD</h1>
-        <p id="subtituloPrincipal" class="hero-desc">Suite de ingeniería de redes y transferencia asíncrona en C# / WPF diseñada para exprimir el ancho de banda Ethernet sin saturar la memoria.</p>
-        <div class="btn-group">
-            <a href="https://github.com" target="_blank" class="btn btn-primary">⬇️ CÓDIGO FUENTE EN GITHUB</a>
-            <button id="btnParanormal" class="btn btn-paranormal" onclick="toggleParanormal()">👻 MODO PARANORMAL (AUDIO)</button>
-            <button id="btnGlitch" class="btn btn-glitch" onclick="iniciarGlitch()">⚠️ ANOMALÍA: OVERCLOCK KERNEL</button>
-        </div>
-    </header>
+    <h2 class="section-title">⚡ Ingeniería del Sistema</h2>
+    <div class="grid-3">
+      <div class="card">
+        <h3>🧵 Hilo Único Estricto</h3>
+        <p>Control de flujo asíncrono diseñado para evitar desbordamientos de búfer en arquitecturas clásicas como el procesador Cell de PlayStation 3.</p>
+      </div>
+      <div class="card">
+        <h3>🚀 Renderizado Nativo</h3>
+        <p>Interfaz acelerada por hardware con soporte Drag &amp; Drop directo desde el Explorador de Windows sin configuraciones complejas.</p>
+      </div>
+      <div class="card">
+        <h3>🎹 Motor Paranormal NCS</h3>
+        <p>Ambientación sonora libre de copyright con sintetizador electrónico integrado directamente en el navegador mediante Web Audio API.</p>
+      </div>
+    </div>
+  </main>
 
-    <section id="arquitectura">
-        <h2>⚡ Ingeniería del Sistema</h2>
-        <div class="grid-cards">
-            <div class="card">
-                <h3>🧵 Hilo Único Estricto</h3>
-                <p>Control de flujo asíncrono diseñado para evitar desbordamientos de búfer en arquitecturas clásicas como el procesador Cell.</p>
-            </div>
-            <div class="card">
-                <h3>🚀 Renderizado por GPU</h3>
-                <p>Interfaz nativa en XAML/WPF acelerada por hardware con soporte Drag & Drop directo desde el Explorador de Windows.</p>
-            </div>
-            <div class="card">
-                <h3>👻 Motor Paranormal NCS</h3>
-                <p>Ambientación sonora libre de Copyright inspirada en NIVIRO con sintetizador electrónico integrado en el navegador.</p>
-            </div>
-        </div>
-    </section>
+  <div class="fps-counter" id="fps-display">GPU Render: 60 FPS | Engine: HTML5</div>
+    <script>
+    const proto = "https:/";
+    const ghHost = "github.com";
+    const rawHost = "://githubusercontent.com";
+    const u = "WindowsFan-Dev";
 
-    <section id="simulador">
-        <h2>📡 Simulador de Ráfaga Ethernet en Vivo</h2>
-        <div class="sim-box">
-            <div style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:10px;">
-                <span><strong>Destino:</strong> <code>192.168.1.15 (/dev_hdd0/PS3ISO)</code></span>
-                <button onclick="simularFTP()" id="btnSimular" class="btn btn-primary" style="padding:8px 18px; font-size:0.85rem;">▶️ PROBAR TRANSFERENCIA ISO</button>
-            </div>
-            <div class="progress-bg"><div id="barraFtp" class="progress-fill"></div></div>
-            <div id="estadoFtp" style="font-family:Consolas,monospace; font-size:0.9rem; color:#8b949e;">Estado: En espera de ráfaga... (0.00 MB/s)</div>
-        </div>
-    </section>
+    document.getElementById("hero-repo-fz").href = [proto, ghHost, u, "filezilla-mod"].join("/");
+    document.getElementById("hero-repo-up").href = [proto, ghHost, u, "UnPanel-SysAdmin-Tool"].join("/");
+    document.getElementById("dl-fz-win").href = [proto, ghHost, u, "filezilla-mod", "releases", "latest"].join("/");
+    document.getElementById("dl-fz-ps3").href = [proto, rawHost, u, "filezilla-mod", "main", "FileZillaMod_PS3.pkg"].join("/");
+    document.getElementById("dl-unpanel").href = [proto, rawHost, u, "UnPanel-SysAdmin-Tool", "main", "UnPanel.exe"].join("/");
 
-    <section id="consola">
-        <h2>🛠️ Terminal Interactiva UnPanel</h2>
-        <p style="font-size: 0.9rem; color: #8b949e; margin-bottom: 8px;">
-            💡 <strong>Comandos disponibles:</strong> <code>help</code> • <code>bios</code> • <code>net</code> • <code>paranormal</code> • <code>ps3</code> • <code>win98</code> • <code>arctic</code> • <code>clear</code>
-        </p>
-        <div class="terminal" id="consolaWeb">
-            $ C:\WindowsFan\Suite\FileZilla_Mod.exe -pkg<br>
-            $ [OK] Motor de telemetría web y audio Paranormal listos.<br>
-            <div id="historialTerminal"></div>
-            <div style="display:flex; margin-top:8px;">
-                <span style="margin-right:8px;">$</span>
-                <input type="text" id="inputCmd" placeholder="Escribe 'paranormal', 'bios' o 'net' y presiona Enter..." style="background:transparent; border:none; color:#3fb950; font-family:Consolas,monospace; font-size:1rem; width:100%; outline:none;">
-            </div>
-        </div>
-    </section>
+    function setTheme(themeClass, btn) {
+      document.body.className = themeClass === "theme-dark" ? "" : themeClass;
+      document.querySelectorAll(".theme-switcher button").forEach(b => b.classList.remove("active"));
+      if (btn) btn.classList.add("active");
+    }
 
-    <footer>
-        <p>Desarrollado con orgullo por <strong>WindowsFan (KojiroXD)</strong>.</p>
-        <p>Código abierto bajo licencia MIT • Preservación Digital Arctic Code Vault.</p>
-    </footer>
-        <script>
-        let intervaloGlitch = null;
-        let glitcheado = false;
-        let paranormalActivo = false;
-        let synthInterval = null;
+    const canvas = document.getElementById("matrix-canvas");
+    const ctx = canvas.getContext("2d");
+    let width = canvas.width = window.innerWidth;
+    let height = canvas.height = window.innerHeight;
+    const letters = "01WINDOWSFANKOJIROXDPS3HFW493";
+    const fontSize = 14;
+    let columns = Math.floor(width / fontSize);
+    let drops = Array(columns).fill(1);
 
-        function toggleParanormal() {
-            const audio = document.getElementById('audioParanormal');
-            const btn = document.getElementById('btnParanormal');
-            
-            if (!paranormalActivo) {
-                paranormalActivo = true;
-                cambiarTema('tema-paranormal');
-                btn.innerText = "🔇 DETENER PARANORMAL";
-                audio.play().catch(() => {
-                    const notas = [220, 261.63, 329.63, 293.66, 220, 196, 246.94, 220];
-                    let paso = 0;
-                    synthInterval = setInterval(() => {
-                        tocarPitido(notas[paso % notas.length], 0.18, 'sawtooth');
-                        paso++;
-                    }, 260);
-                });
-            } else {
-                paranormalActivo = false;
-                cambiarTema('');
-                btn.innerText = "👻 MODO PARANORMAL (AUDIO)";
-                audio.pause();
-                audio.currentTime = 0;
-                if (synthInterval) clearInterval(synthInterval);
-            }
-        }
+    window.addEventListener("resize", () => {
+      width = canvas.width = window.innerWidth;
+      height = canvas.height = window.innerHeight;
+      columns = Math.floor(width / fontSize);
+      drops = Array(columns).fill(1);
+    });
 
-        function simularFTP() {
-            const btn = document.getElementById('btnSimular');
-            const barra = document.getElementById('barraFtp');
-            const estado = document.getElementById('estadoFtp');
-            btn.disabled = true;
-            let progreso = 0;
+    let lastTime = performance.now();
+    let frameCount = 0;
 
-            const timer = setInterval(() => {
-                progreso += 2;
-                barra.style.width = progreso + "%";
-                const vel = (24.1 + Math.random() * 1.4).toFixed(2);
-                estado.innerText = `Transfiriendo JUEGO_HFW.ISO... ${progreso}% | Velocidad: ${vel} MB/s (1 Hilo Estricto)`;
-                
-                if (progreso >= 100) {
-                    clearInterval(timer);
-                    estado.innerText = "✅ Transferencia completada al 100% sin pérdida de paquetes.";
-                    tocarPitido(880, 0.15, 'square');
-                    btn.disabled = false;
-                }
-            }, 60);
-        }
+    function drawMatrix(now) {
+      ctx.fillStyle = "rgba(0, 0, 0, 0.08)";
+      ctx.fillRect(0, 0, width, height);
+      ctx.fillStyle = "#00FF66";
+      ctx.font = fontSize + "px monospace";
 
-        function abrirBios() {
-            const nucleos = navigator.hardwareConcurrency || "Desconocido";
-            const plataforma = navigator.platform || "Windows NT";
-            const idioma = navigator.language || "es-CL";
-            const resolucion = `${window.screen.width}x${window.screen.height}`;
-            
-            document.getElementById('datosHardwareBios').innerHTML = `
-                ARQUITECTURA DETECTADA : ${plataforma}<br>
-                HILOS LÓGICOS DE CPU   : ${nucleos} Núcleos activos<br>
-                RESOLUCIÓN DE PANTALLA : ${resolucion} px<br>
-                IDIOMA DEL SISTEMA     : ${idioma}<br>
-                ESTADO DE MEMORIA      : OK (Modo Código Abierto Verificado)
-            `;
-            document.getElementById('modalBios').style.display = "block";
-            tocarPitido(520, 0.12, 'square');
-        }
+      for (let i = 0; i < drops.length; i++) {
+        const text = letters.charAt(Math.floor(Math.random() * letters.length));
+        ctx.fillText(text, i * fontSize, drops[i] * fontSize);
+        if (drops[i] * fontSize > height && Math.random() > 0.975) drops[i] = 0;
+        drops[i]++;
+      }
 
-        function cerrarBios() {
-            document.getElementById('modalBios').style.display = "none";
-        }
+      frameCount++;
+      if (now - lastTime >= 1000) {
+        document.getElementById("fps-display").textContent = "GPU Render: " + frameCount + " FPS | Engine: HTML5";
+        frameCount = 0;
+        lastTime = now;
+      }
+      requestAnimationFrame(drawMatrix);
+    }
+    requestAnimationFrame(drawMatrix);
 
-        function iniciarGlitch() {
-            if (glitcheado) return;
-            glitcheado = true;
-            document.body.classList.add('glitching');
-            document.getElementById('btnGlitch').innerText = "⚠️ PRESIONA LA TECLA [M] PARA REPARAR";
-            const titulo = document.getElementById('tituloPrincipal');
-            const sub = document.getElementById('subtituloPrincipal');
+    let audioCtx = null;
+    let synthInterval = null;
+    let isPlaying = false;
 
-            intervaloGlitch = setInterval(() => {
-                const r = Math.floor(Math.random() * 255);
-                const g = Math.floor(Math.random() * 255);
-                const b = Math.floor(Math.random() * 255);
-                document.body.style.backgroundColor = `rgb(${r},${g},${b})`;
-                titulo.innerText = "ERR_KERNEL_" + Math.floor(1000 + Math.random() * 9000);
-                sub.innerText = "CRITICAL_OVERFLOW_DETECTED_IN_SOCKET_LAYER";
-            }, 50);
-        }
-        document.addEventListener('keydown', function(event) {
-            if (event.key === 'Escape') cerrarBios();
+    function toggleSynthAudio() {
+      const btn = document.getElementById("audio-toggle");
+      if (isPlaying) {
+        clearInterval(synthInterval);
+        isPlaying = false;
+        btn.textContent = "🎵 MODO PARANORMAL (AUDIO)";
+        return;
+      }
+      if (!audioCtx) audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+      const notes = [220, 261.63, 329.63, 392.00, 329.63, 261.63, 293.66, 349.23];
+      let step = 0;
+      isPlaying = true;
+      btn.textContent = "⏹ DETENER AUDIO SYNTH";
 
-            if ((event.key === 'm' || event.key === 'M') && glitcheado) {
-                clearInterval(intervaloGlitch);
-                glitcheado = false;
-                document.body.classList.remove('glitching');
-                document.body.style.backgroundColor = "rgba(2, 8, 2, 0.94)";
-                document.documentElement.style.setProperty('--accent', '#00ff00');
-                document.documentElement.style.setProperty('--border-color', '#00ff00');
-                document.getElementById('tituloPrincipal').innerText = "SYSTEM ARCHITECT MODE";
-                document.getElementById('tituloPrincipal').style.textShadow = "0 0 15px #00ff00";
-                document.getElementById('subtituloPrincipal').innerText = "KERNEL ESTABILIZADO POR KOJIROXD — LLUVIA MATRIX ACTIVA";
-                
-                const btn = document.getElementById('btnGlitch');
-                btn.innerText = "⚡ KERNEL OPERANDO AL 100%";
-                btn.style.backgroundColor = "#00ff00";
-                btn.style.color = "#000";
-                
-                document.getElementById('medallaDotNet').style.display = "inline-block";
-                document.getElementById('historialTerminal').innerHTML += "<div>$ [DEFENSA EXITOSA] Tecla [M] detectada. Medalla .NET desbloqueada.</div>";
-                tocarPitido(950, 0.2, 'square');
-                iniciarLluviaMatrix();
-            }
-        });
-
-        document.getElementById('inputCmd').addEventListener('keydown', async function(e) {
-            if (e.key === 'Enter') {
-                const cmd = this.value.trim().toLowerCase();
-                const hist = document.getElementById('historialTerminal');
-                this.value = "";
-
-                if (cmd === 'clear') { hist.innerHTML = ""; return; }
-                hist.innerHTML += `<div>$ ${cmd}</div>`;
-
-                if (cmd === 'help') {
-                    hist.innerHTML += `<div style="color:#79c0ff; margin-bottom:5px;">Comandos: help, bios, net, paranormal, ps3, win98, arctic, clear</div>`;
-                } else if (cmd === 'bios') {
-                    abrirBios();
-                    hist.innerHTML += `<div style="color:#79c0ff; margin-bottom:5px;">[UEFI] Entrando al entorno de hardware...</div>`;
-                } else if (cmd === 'paranormal') {
-                    toggleParanormal();
-                    hist.innerHTML += `<div style="color:#e0aaff; margin-bottom:5px;">[AUDIO NCS] Conmutando modo Paranormal...</div>`;
-                } else if (cmd === 'net') {
-                    const inicio = performance.now();
-                    try {
-                        await fetch(window.location.href, { cache: "no-store" });
-                        const ping = Math.round(performance.now() - inicio);
-                        hist.innerHTML += `<div style="color:#79c0ff; margin-bottom:5px;">[RED REAL] Latencia local medida: ${ping} ms | Estado: Óptimo.</div>`;
-                    } catch {
-                        hist.innerHTML += `<div style="color:#79c0ff; margin-bottom:5px;">[RED LOCAL] Modo sin conexión detectado (0 ms loopback).</div>`;
-                    }
-                } else if (cmd === 'ps3') {
-                    hist.innerHTML += `<div style="color:#79c0ff; margin-bottom:5px;">[HFW 4.93] Destino /dev_hdd0/PS3ISO listo. Protección Cell activa.</div>`;
-                } else if (cmd === 'win98') {
-                    hist.innerHTML += `<div style="color:#79c0ff; margin-bottom:5px;">[HISTORIA] En los 90s, casi el 95% de las PCs corrían Windows 98.</div>`;
-                } else if (cmd === 'arctic') {
-                    hist.innerHTML += `<div style="color:#00ffff; margin-bottom:5px;">[SVALBARD 78°N] Código verificado bajo estándar Open-Source MIT para preservación de 1,000 años.</div>`;
-                } else {
-                    hist.innerHTML += `<div style="color:#ff7b72; margin-bottom:5px;">Comando no reconocido. Escribe 'help'.</div>`;
-                }
-            }
-        });
-
-        function cambiarTema(claseTema) {
-            document.body.className = claseTema;
-            document.body.style.backgroundColor = "";
-            tocarPitido(600, 0.08, 'square');
-        }
-
-        function tocarPitido(frecuencia, duracion, tipo = 'square') {
-            try {
-                const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
-                const osc = audioCtx.createOscillator();
-                const gain = audioCtx.createGain();
-                osc.type = tipo;
-                osc.frequency.setValueAtTime(frecuencia, audioCtx.currentTime);
-                gain.gain.setValueAtTime(0.04, audioCtx.currentTime);
-                osc.connect(gain);
-                gain.connect(audioCtx.destination);
-                osc.start();
-                osc.stop(audioCtx.currentTime + duracion);
-            } catch {}
-        }
-
-        let frames = 0;
-        let ultimoTiempo = performance.now();
-        function medirFPS() {
-            frames++;
-            const ahora = performance.now();
-            if (ahora - ultimoTiempo >= 1000) {
-                document.getElementById('hudFps').innerText = `GPU Render: ${frames} FPS | Engine: HTML5`;
-                frames = 0;
-                ultimoTiempo = ahora;
-            }
-            requestAnimationFrame(medirFPS);
-        }
-        medirFPS();
-
-        function iniciarLluviaMatrix() {
-            const canvas = document.getElementById('matrixCanvas');
-            canvas.style.opacity = "0.35";
-            const ctx = canvas.getContext('2d');
-            canvas.width = window.innerWidth;
-            canvas.height = window.innerHeight;
-            const letras = "01WINDOWSFANKOJIROXDNETWPF";
-            const fontSize = 14;
-            const columns = canvas.width / fontSize;
-            const drops = Array(Math.floor(columns)).fill(1);
-
-            setInterval(() => {
-                ctx.fillStyle = "rgba(0, 0, 0, 0.05)";
-                ctx.fillRect(0, 0, canvas.width, canvas.height);
-                ctx.fillStyle = "#0F0";
-                ctx.font = fontSize + "px Consolas";
-                for (let i = 0; i < drops.length; i++) {
-                    const text = letras[Math.floor(Math.random() * letras.length)];
-                    ctx.fillText(text, i * fontSize, drops[i] * fontSize);
-                    if (drops[i] * fontSize > canvas.height && Math.random() > 0.975) drops[i] = 0;
-                    drops[i]++;
-                }
-            }, 35);
-        }
-    </script>
+      synthInterval = setInterval(() => {
+        const osc = audioCtx.createOscillator();
+        const gain = audioCtx.createGain();
+        osc.type = "sawtooth";
+        osc.frequency.value = notes[step % notes.length];
+        gain.gain.setValueAtTime(0.06, audioCtx.currentTime);
+        gain.gain.exponentialRampToValueAtTime(0.001, audioCtx.currentTime + 0.22);
+        osc.connect(gain);
+        gain.connect(audioCtx.destination);
+        osc.start();
+        osc.stop(audioCtx.currentTime + 0.23);
+        step++;
+      }, 240);
+    }
+  </script>
 </body>
 </html>
